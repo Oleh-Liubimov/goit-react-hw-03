@@ -2,9 +2,9 @@
 import { Formik, Form, Field } from "formik";
 import { nanoid } from "nanoid";
 import { useId } from "react";
+import { ErrorMessage } from "formik";
 
-
-export default function ContactForm({onAdd}) {
+export default function ContactForm({onAdd, validation}) {
     const nameId = useId();
     const numberId = useId();
     const handleSubmit = (values,actions) => {
@@ -17,7 +17,11 @@ export default function ContactForm({onAdd}) {
     }
 
     return (
-      <Formik initialValues={{ name: "", number: "" }} onSubmit={handleSubmit}>
+      <Formik
+        initialValues={{ name: "", number: "" }}
+        onSubmit={handleSubmit}
+        validationSchema={validation}
+      >
         <Form className="flex flex-col mb-5 border-2 border-black rounded p-5">
           <label htmlFor={nameId} className="font-medium">
             Name
@@ -26,7 +30,12 @@ export default function ContactForm({onAdd}) {
             type="text"
             name="name"
             id={nameId}
-            className="border border-black rounded mb-5 outline-none"
+            className="border border-black rounded  outline-none"
+          />
+          <ErrorMessage
+            className="text-red-600 mb-5"
+            name="name"
+            component="span"
           />
 
           <label htmlFor={numberId} className="font-medium">
@@ -36,14 +45,19 @@ export default function ContactForm({onAdd}) {
             type="number"
             name="number"
             id={numberId}
-            className="border border-black rounded mb-5 outline-none"
+            className="border border-black rounded outline-none mb-5 "
+          />
+          <ErrorMessage
+            className="text-red-600"
+            name="number"
+            component="span"
           />
 
           <button
             type="submit"
-            className="bg-slate-300 
+            className="bg-green-500 
             border rounded border-slate-950 h-7 p-1 flex justify-center
-            items-center hover:bg-slate-200"
+            items-center hover:bg-green-600 transition-all"
           >
             Add contact
           </button>
